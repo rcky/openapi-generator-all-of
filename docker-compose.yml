@@ -1,0 +1,14 @@
+version: '3.5'
+services:
+  build-client:
+    image: openapitools/openapi-generator-cli:v5.0.1
+    container_name: openapi-generator-all-of
+    volumes:
+      - ${PWD}:/local/
+    environment:
+      GIT_REPO_ID: 'openapi-generator-all-of'
+      GIT_USER_ID: 'rcky'
+    # @note: to decouple the generated code we should add --ignore-file-override=/local/openapi/.openapi-generator-ignore
+    #        at the time of writing, the generator does not properly support this option
+    # @see: https://github.com/OpenAPITools/openapi-generator/issues/5723
+    command:  'generate -i /local/openapi/openapi.yml -g php -o /local --ignore-file-override=/local/openapi/.openapi-generator-ignore.dist'
